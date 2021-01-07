@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">Onramp Android Take Home</string>
+    <string name="app_name">Photo App</string>
     <string name="action_settings">Settings</string>
     <string name="fab_cont_description">Floating action button</string>
+    <string name="explore_activity">explore</string>
+    <string name="about_menu_item">About</string>
 </resources>
