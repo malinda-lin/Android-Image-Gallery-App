@@ -50,3 +50,7 @@ Take these steps to run this application on your local machine:
 - Kotlin
 
 ## Resources Used
+
+[Android Dev Docs on App Architecture](https://developer.android.com/jetpack/guide)
+[MVP Architecture Code Example](https://github.com/android/architecture-samples/tree/todo-mvp-kotlin)
+[MVP Architecture Video](https://www.youtube.com/watch?v=h0Y1R2mL7Ys&list=PLEVlop6sMHCqragWmqo7JF92QXQoidRmu&index=2)
