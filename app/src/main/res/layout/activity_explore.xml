@@ -25,9 +25,9 @@
 
         </com.google.android.material.appbar.MaterialToolbar>
 
-
     </com.google.android.material.appbar.AppBarLayout>
 
+<!--    imageView and Button for Debugging DELETE UPON SUBMISSION-->
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
@@ -40,8 +40,6 @@
         android:layout_height="wrap_content"
         android:onClick="loadImage"
         android:text="click me"/>
-
-    <include layout="@layout/image_card_view"></include>
 
     <GridView
         android:id="@+id/imageGrid"

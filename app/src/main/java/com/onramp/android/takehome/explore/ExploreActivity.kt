@@ -21,15 +21,19 @@ class ExploreActivity : AppCompatActivity() {
     var adapter: ImageAdapter? = null
     var imageList = ArrayList<ImageViewModel>()
 
+    // DELETE UPON SUBMISSION
     private var TAG = "ExploreActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_explore)
 
+        // load topAppBar
         val topAppBar = findViewById<MaterialToolbar>(R.id.topAppBar)
         setSupportActionBar(topAppBar)
 
+        // added placeholder data to imageList
+        // TODO: create method to fetch and populate imageList
         imageList.add(ImageViewModel(
                 "image1",
                 "testImage",
@@ -41,21 +45,10 @@ class ExploreActivity : AppCompatActivity() {
                 "download link",
                 "location")
         )
-        imageList.add(ImageViewModel(
-                "image2",
-                "testImage",
-                "test description",
-                "https://images.unsplash.com/photo-1609910276253-4ed82b146992?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80",
-                "Malinda",
-                1,
-                0,
-                "download link",
-                "location")
-        )
 
+        // bind adapter to gridView
         adapter = ImageAdapter(this, imageList)
         var gridView = findViewById<GridView>(R.id.imageGrid)
-
         gridView.adapter = adapter
     }
 
@@ -75,6 +68,7 @@ class ExploreActivity : AppCompatActivity() {
         }
     }
 
+    // function for debugging, DELETE UPON SUBMISSION
     fun loadImage(view: View?) {
         val url = "https://images.unsplash.com/photo-1609910276253-4ed82b146992?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80"
         var imageView = findViewById<ImageView>(R.id.imageView)

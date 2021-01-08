@@ -51,12 +51,12 @@ Take these steps to run this application on your local machine:
 
 ## Resources Used
 
-[Android Dev Docs on App Architecture](https://developer.android.com/jetpack/guide)
-[MVP Architecture Code Example](https://github.com/android/architecture-samples/tree/todo-mvp-kotlin)
-[MVP Architecture Video](https://www.youtube.com/watch?v=h0Y1R2mL7Ys&list=PLEVlop6sMHCqragWmqo7JF92QXQoidRmu&index=2)
-[Logcat Video Tutorial](https://www.youtube.com/watch?v=pqH69LcD2Kk)
-[Material Design](https://material.io/)
-[Retrofit](https://square.github.io/retrofit/)
-[Image Loading Library - Glide](https://github.com/bumptech/glide)
-[Using GridView and BaseAdapter](https://www.youtube.com/watch?v=ReUBY5i9ojY&t=1002s)
-[Extracting APK](https://www.educative.io/edpresso/extracting-an-apk-file-from-android-studio)
+[Android Dev Docs on App Architecture](https://developer.android.com/jetpack/guide)   
+[MVP Architecture Code Example](https://github.com/android/architecture-samples/tree/todo-mvp-kotlin)   
+[MVP Architecture Video](https://www.youtube.com/watch?v=h0Y1R2mL7Ys&list=PLEVlop6sMHCqragWmqo7JF92QXQoidRmu&index=2)   
+[Logcat Video Tutorial](https://www.youtube.com/watch?v=pqH69LcD2Kk)   
+[Material Design](https://material.io/)   
+[Retrofit](https://square.github.io/retrofit/)   
+[Image Loading Library - Glide](https://github.com/bumptech/glide)   
+[Using GridView and BaseAdapter](https://www.youtube.com/watch?v=ReUBY5i9ojY&t=1002s)   
+[Extracting APK](https://www.educative.io/edpresso/extracting-an-apk-file-from-android-studio)   
