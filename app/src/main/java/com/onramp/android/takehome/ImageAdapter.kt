@@ -1,6 +1,7 @@
 package com.onramp.android.takehome
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,16 +33,18 @@ class ImageAdapter : BaseAdapter{
     }
 
     override fun getView(idx: Int, convertView: View?, parent: ViewGroup?): View {
-        var image = this.imageList[idx]
-        var inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        var cardLayout = inflater.inflate(R.layout.image_card_view, null)
+        val image = this.imageList[idx]
 
-        var imageView = cardLayout.findViewById<ImageView>(R.id.cardImageView)
-        var textView = cardLayout.findViewById<TextView>(R.id.cardTextView)
+        val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val cardLayout = inflater.inflate(R.layout.image_card_view, null)
+
+        val imageView = cardLayout.findViewById<ImageView>(R.id.cardImageView)
+        val textView = cardLayout.findViewById<TextView>(R.id.cardTextView)
 
         textView.text = image.id
 
-        var url = image.url
+        // loads imageView with URL
+        val url = image.urls.small
         Glide.with(this.context!!)
                 .load(url)
                 .centerCrop()

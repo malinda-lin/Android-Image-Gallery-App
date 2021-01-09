@@ -1,28 +1,34 @@
 package com.onramp.android.takehome.explore
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.GridView
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.MaterialToolbar
 import com.onramp.android.takehome.ImageAdapter
 import com.onramp.android.takehome.R
 import com.onramp.android.takehome.data.ImageViewModel
+import com.onramp.android.takehome.data.source.remote.ImageRemoteDataSource
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Retrofit
+import retrofit2.awaitResponse
+import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Exception
+import kotlin.collections.ArrayList
 
-const val BASE_URL = "https://api.unsplash.com/"
+const val BASE_URL = "https://api.unsplash.com"
 
 class ExploreActivity : AppCompatActivity() {
 
     var adapter: ImageAdapter? = null
     var imageList = ArrayList<ImageViewModel>()
-
-    // DELETE UPON SUBMISSION
-    private var TAG = "ExploreActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,24 +38,8 @@ class ExploreActivity : AppCompatActivity() {
         val topAppBar = findViewById<MaterialToolbar>(R.id.topAppBar)
         setSupportActionBar(topAppBar)
 
-        // added placeholder data to imageList
-        // TODO: create method to fetch and populate imageList
-        imageList.add(ImageViewModel(
-                "image1",
-                "testImage",
-                "test description",
-                "https://images.unsplash.com/photo-1609910276253-4ed82b146992?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80",
-                "Malinda",
-                1,
-                0,
-                "download link",
-                "location")
-        )
-
-        // bind adapter to gridView
-        adapter = ImageAdapter(this, imageList)
-        var gridView = findViewById<GridView>(R.id.imageGrid)
-        gridView.adapter = adapter
+        // function to retrieve data
+        getCurrentData(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -68,15 +58,38 @@ class ExploreActivity : AppCompatActivity() {
         }
     }
 
-    // function for debugging, DELETE UPON SUBMISSION
-    fun loadImage(view: View?) {
-        val url = "https://images.unsplash.com/photo-1609910276253-4ed82b146992?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80"
-        var imageView = findViewById<ImageView>(R.id.imageView)
-        Glide.with(this)
-                .load(url)
-                .centerCrop()
-                .placeholder(R.drawable.ic_launcher_foreground)
-                .into(imageView)
+    // function that retrieves image data from API
+    private fun getCurrentData(thisContext: Context) {
+        val api = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create<ImageRemoteDataSource>(ImageRemoteDataSource::class.java)
+
+        // puts data request on data fetching thread
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val res = api.getRandomImages().awaitResponse()
+                // add all imageViewModels to imageList
+                if (res.isSuccessful) {
+                    val data = res.body()!!
+                    for(item in data) {
+                        imageList.add(item)
+                    }
+                    // async bind adapter to gridView
+                    withContext(Dispatchers.Main) {
+                        adapter = ImageAdapter(thisContext, imageList)
+                        var gridView = findViewById<GridView>(R.id.imageGrid)
+                        gridView.adapter = adapter
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("logs", "Error Fetching Data: $e")
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(applicationContext,"Problem with connection", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
 }
