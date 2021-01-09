@@ -1,6 +1,7 @@
 package com.onramp.android.takehome.imageData
 
-data class Image(
+// This class defines single image attributes
+data class Image (
         val alt_description: String,
         val created_at: String,
         val description: String,
