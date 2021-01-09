@@ -5,8 +5,6 @@ import android.widget.Toast
 import com.onramp.android.takehome.DependencyInjector
 import com.onramp.android.takehome.ImageRepository
 import com.onramp.android.takehome.imageData.Image
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 class ExplorePresenter(
         view: ExploreContract.View,

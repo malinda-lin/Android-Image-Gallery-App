@@ -64,5 +64,6 @@ Take these steps to run this application on your local machine:
 [Coroutine Beginner Video Tutorial](https://www.youtube.com/watch?v=F63mhZk-1-Y)   
 [Unsplash API](https://unsplash.com/documentation#get-a-random-photo)   
 [Guide to Store Secret Keys](https://guides.codepath.com/android/Storing-Secret-Keys-in-Android)
+[Adding Fragments Basic Video Tutorial](https://www.youtube.com/watch?v=-vAI7RSPxOA)
 [Extracting APK](https://www.educative.io/edpresso/extracting-an-apk-file-from-android-studio)   
 [Stack Overflow](https://stackoverflow.com/questions/7871430/increase-the-grid-spacing-in-android)   

@@ -21,7 +21,6 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-
         <ImageView
             android:id="@+id/cardImageView"
             android:layout_width="wrap_content"
@@ -41,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:backgroundTint="@android:color/transparent"
-            android:onClick="toggleFavorite"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/cardTextView"
             app:layout_constraintStart_toStartOf="@+id/cardTextView"
