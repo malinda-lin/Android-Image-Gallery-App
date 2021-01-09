@@ -41,13 +41,15 @@ class ImageAdapter : BaseAdapter{
         val imageView = cardLayout.findViewById<ImageView>(R.id.cardImageView)
         val textView = cardLayout.findViewById<TextView>(R.id.cardTextView)
 
-        textView.text = image.id
+        textView.text = "Photo By ${image.user.name}"
+        imageView.contentDescription = image.alt_description
 
         // loads imageView with URL
         val url = image.urls.small
         Glide.with(this.context!!)
                 .load(url)
                 .centerCrop()
+                .override(400, 400)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(imageView)
 

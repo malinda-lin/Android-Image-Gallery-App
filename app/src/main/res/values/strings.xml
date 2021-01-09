@@ -5,4 +5,7 @@
     <string name="explore_activity">explore</string>
     <string name="about_menu_item">About</string>
     <string name="placeholder">PLACEHOLDER</string>
+    <string name="explore_navigation">Explore</string>
+    <string name="search_navigation">Search</string>
+    <string name="favorite_navigation">Favorite</string>
 </resources>

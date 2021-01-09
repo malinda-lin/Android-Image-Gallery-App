@@ -2,38 +2,66 @@
 
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/materialCardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:onClick="showPhotoDetail"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
-    app:cardPreventCornerOverlap="true"
+    app:cardPreventCornerOverlap="false"
     style="@style/Widget.MaterialComponents.CardView">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardLinearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center"
+        android:orientation="vertical"
         android:padding="10dp">
+
 
         <ImageView
             android:id="@+id/cardImageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_launcher_foreground"
+            android:contentDescription="@string/placeholder" />
+
+        <ImageButton
+            android:id="@+id/favoriteImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@android:color/transparent"
+            android:onClick="toggleFavorite"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="@+id/cardTextView"
+            app:layout_constraintStart_toStartOf="@+id/cardTextView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_favorite" />
+
         <TextView
             android:id="@+id/cardTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="10dp"
-            android:textSize="20dp">
-        </TextView>
+            android:text="@string/placeholder"
+            android:textSize="20dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

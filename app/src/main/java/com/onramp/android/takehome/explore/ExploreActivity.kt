@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.GridView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.onramp.android.takehome.ImageAdapter
@@ -92,4 +92,58 @@ class ExploreActivity : AppCompatActivity() {
         }
     }
 
+    var focusedView: View? = null
+    fun showPhotoDetail(view: View) {
+        val imageView = view.findViewById<ImageView>(R.id.cardImageView)
+        val textView = view.findViewById<TextView>(R.id.cardTextView)
+        val imageButton = view.findViewById<ImageButton>(R.id.favoriteImageButton)
+
+        when(focusedView) {
+            view -> {
+                textView.visibility = View.INVISIBLE
+                imageButton.visibility = View.INVISIBLE
+                imageView.alpha = 1f
+                focusedView = null
+            }
+            null -> {
+                textView.visibility = View.VISIBLE
+                imageButton.visibility = View.VISIBLE
+                imageView.alpha = 0.5f
+                focusedView = view
+            }
+            else -> {
+                // deselect previous card
+                val prevImageView = focusedView!!.findViewById<ImageView>(R.id.cardImageView)
+                val prevTextView = focusedView!!.findViewById<TextView>(R.id.cardTextView)
+                val prevImageButton = focusedView!!.findViewById<ImageButton>(R.id.favoriteImageButton)
+                prevTextView.visibility = View.INVISIBLE
+                prevImageButton.visibility = View.INVISIBLE
+                prevImageView.alpha = 1f
+
+                // select the current card
+                textView.visibility = View.VISIBLE
+                imageButton.visibility = View.VISIBLE
+                imageView.alpha = 0.5f
+                focusedView = view
+            }
+        }
+//        if (focusedView === view) {
+//            // hide details
+//                textView.visibility = View.INVISIBLE
+//                imageButton.visibility = View.INVISIBLE
+//                imageView.alpha = 1f
+//                focusedView = null
+//        } else if (focusedView !== null){
+//            // show details
+//                textView.visibility = View.VISIBLE
+//                imageButton.visibility = View.VISIBLE
+//                imageView.alpha = 0.5f
+//                focusedView = view
+//        }
+
+    }
+
+    fun toggleFavorite(view: View) {
+
+    }
 }

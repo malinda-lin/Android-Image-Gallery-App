@@ -62,5 +62,6 @@ Take these steps to run this application on your local machine:
 [Using GridView and BaseAdapter](https://www.youtube.com/watch?v=ReUBY5i9ojY&t=1002s)  
 [Coroutine](https://kotlinlang.org/docs/reference/coroutines/coroutine-context-and-dispatchers.html#coroutine-context-and-dispatchers)   
 [Unsplash API](https://unsplash.com/documentation#get-a-random-photo)   
+[Guide to Store Secret Keys](https://guides.codepath.com/android/Storing-Secret-Keys-in-Android)
 [Extracting APK](https://www.educative.io/edpresso/extracting-an-apk-file-from-android-studio)   
 [Stack Overflow](https://stackoverflow.com/questions/7871430/increase-the-grid-spacing-in-android)   
