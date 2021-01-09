@@ -9,26 +9,24 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.appbar.MaterialToolbar
-import com.onramp.android.takehome.ImageAdapter
-import com.onramp.android.takehome.R
-import com.onramp.android.takehome.data.ImageViewModel
-import com.onramp.android.takehome.data.source.remote.ImageRemoteDataSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.onramp.android.takehome.*
+import com.onramp.android.takehome.imageData.Image
+import com.onramp.android.takehome.imageData.source.remote.ImageRemoteDataSource
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
-const val BASE_URL = "https://api.unsplash.com"
+class ExploreActivity : AppCompatActivity(), ExploreContract.View {
 
-class ExploreActivity : AppCompatActivity() {
+    private var adapter: ImageAdapter? = null
+    private lateinit var presenter: ExploreContract.Presenter
 
-    var adapter: ImageAdapter? = null
-    var imageList = ArrayList<ImageViewModel>()
+    private val imageRepository: ImageRepository = ImageRepositoryImpl()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,8 +36,13 @@ class ExploreActivity : AppCompatActivity() {
         val topAppBar = findViewById<MaterialToolbar>(R.id.topAppBar)
         setSupportActionBar(topAppBar)
 
-        // function to retrieve data
-        getCurrentData(this)
+        setPresenter(ExplorePresenter(this, DependencyInjectorImpl()))
+        // onViewCreated is blank
+        presenter.onViewCreated()
+
+        // async function to retrieve data
+        val activityContext = this
+        CoroutineScope(IO).launch { presenter.getRandomImageData(activityContext)}
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -58,42 +61,31 @@ class ExploreActivity : AppCompatActivity() {
         }
     }
 
-    // function that retrieves image data from API
-    private fun getCurrentData(thisContext: Context) {
-        val api = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create<ImageRemoteDataSource>(ImageRemoteDataSource::class.java)
+    override fun onDestroy() {
+        presenter.onDestroy()
+        super.onDestroy()
+    }
 
-        // puts data request on data fetching thread
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val res = api.getRandomImages().awaitResponse()
-                // add all imageViewModels to imageList
-                if (res.isSuccessful) {
-                    val data = res.body()!!
-                    for(item in data) {
-                        imageList.add(item)
-                    }
-                    // async bind adapter to gridView
-                    withContext(Dispatchers.Main) {
-                        adapter = ImageAdapter(thisContext, imageList)
-                        var gridView = findViewById<GridView>(R.id.imageGrid)
-                        gridView.adapter = adapter
-                    }
-                }
-            } catch (e: Exception) {
-                Log.d("logs", "Error Fetching Data: $e")
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(applicationContext,"Problem with connection", Toast.LENGTH_SHORT).show()
-                }
-            }
+    override fun setPresenter(presenter: ExploreContract.Presenter) {
+        this.presenter = presenter
+    }
+
+    override suspend fun setImagesOnMainThread(activityContext: Context, imageList: ArrayList<Image>) {
+        withContext(Main) {
+            setImagesToGridView(activityContext, imageList)
         }
     }
 
-    var focusedView: View? = null
-    fun showPhotoDetail(view: View) {
+    // bind adapter to gridView
+    private fun setImagesToGridView(activityContext: Context, imageList: ArrayList<Image>) {
+        adapter = ImageAdapter(activityContext, imageList)
+        val gridView = findViewById<GridView>(R.id.imageGrid)
+        gridView.adapter = adapter
+    }
+
+    private var focusedView: View? = null
+    // OnClick function for CardViews
+    private fun showPhotoDetail(view: View) {
         val imageView = view.findViewById<ImageView>(R.id.cardImageView)
         val textView = view.findViewById<TextView>(R.id.cardTextView)
         val imageButton = view.findViewById<ImageButton>(R.id.favoriteImageButton)
@@ -127,23 +119,9 @@ class ExploreActivity : AppCompatActivity() {
                 focusedView = view
             }
         }
-//        if (focusedView === view) {
-//            // hide details
-//                textView.visibility = View.INVISIBLE
-//                imageButton.visibility = View.INVISIBLE
-//                imageView.alpha = 1f
-//                focusedView = null
-//        } else if (focusedView !== null){
-//            // show details
-//                textView.visibility = View.VISIBLE
-//                imageButton.visibility = View.VISIBLE
-//                imageView.alpha = 0.5f
-//                focusedView = view
-//        }
-
     }
 
-    fun toggleFavorite(view: View) {
+    private fun toggleFavorite(view: View) {
 
     }
 }

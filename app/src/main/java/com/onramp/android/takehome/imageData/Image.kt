@@ -1,6 +1,6 @@
-package com.onramp.android.takehome.data
+package com.onramp.android.takehome.imageData
 
-data class ImageViewModel(
+data class Image(
         val alt_description: String,
         val created_at: String,
         val description: String,

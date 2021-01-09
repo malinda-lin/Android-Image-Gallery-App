@@ -1,4 +1,4 @@
-package com.onramp.android.takehome.data
+package com.onramp.android.takehome.imageData
 
 data class Links(
     val download: String,
