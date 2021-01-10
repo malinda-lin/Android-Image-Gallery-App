@@ -19,7 +19,7 @@ class ExplorePresenter(
         val imageList = loadRandomImages()
 
         if (imageList.isEmpty()) {
-            Toast.makeText(activityContext, "Problem with connection", Toast.LENGTH_SHORT).show()
+            view?.setBlank()
         } else {
             view?.setImagesOnMainThread(activityContext, imageList as ArrayList<Image>)
         }

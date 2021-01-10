@@ -73,6 +73,12 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
         this.presenter = presenter
     }
 
+    override suspend fun setBlank() {
+        withContext(Main) {
+            Toast.makeText(applicationContext, "Problem with connection", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override suspend fun setImagesOnMainThread(activityContext: Context, imageList: ArrayList<Image>) {
         withContext(Main) {
             setImagesToGridView(activityContext, imageList)

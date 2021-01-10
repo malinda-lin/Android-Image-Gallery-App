@@ -54,6 +54,7 @@ Take these steps to run this application on your local machine:
 [Android Dev Docs on App Architecture](https://developer.android.com/jetpack/guide)   
 [MVP Architecture Code Example](https://github.com/android/architecture-samples/tree/todo-mvp-kotlin)   
 [MVP Architecture Video](https://www.youtube.com/watch?v=h0Y1R2mL7Ys&list=PLEVlop6sMHCqragWmqo7JF92QXQoidRmu&index=2)   
+[MVP Architecture Tutorial](https://www.raywenderlich.com/7026-getting-started-with-mvp-model-view-presenter-on-android)
 [Logcat Video Tutorial](https://www.youtube.com/watch?v=pqH69LcD2Kk)   
 [Material Design](https://material.io/)   
 [Retrofit](https://square.github.io/retrofit/)   

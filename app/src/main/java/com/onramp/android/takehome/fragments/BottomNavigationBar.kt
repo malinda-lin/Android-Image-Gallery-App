@@ -1,5 +1,6 @@
 package com.onramp.android.takehome.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.onramp.android.takehome.R
+import com.onramp.android.takehome.explore.ExploreActivity
+import com.onramp.android.takehome.favorites.FavoritesActivity
 
 class BottomNavigationBar : Fragment(R.layout.fragment_bottom_nav_bar) {
 
@@ -23,6 +26,8 @@ class BottomNavigationBar : Fragment(R.layout.fragment_bottom_nav_bar) {
         return when(item.itemId) {
             R.id.exploreNavigation -> {
                 Log.d("mylog", "explore!")
+                val intent = Intent(context, ExploreActivity::class.java).apply {}
+                startActivity(intent)
                 true
             }
             R.id.searchNavigation -> {
@@ -31,6 +36,8 @@ class BottomNavigationBar : Fragment(R.layout.fragment_bottom_nav_bar) {
             }
             R.id.favoriteNavigation -> {
                 Log.d("mylog", "favorite!")
+                val intent = Intent(context, FavoritesActivity::class.java).apply {}
+                startActivity(intent)
                 true
             }
             else -> false
