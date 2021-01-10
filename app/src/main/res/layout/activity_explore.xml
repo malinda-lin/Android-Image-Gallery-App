@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@+id/includeTopAppBar"
         app:layout_constraintTop_toBottomOf="@+id/includeTopAppBar" />
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:name="com.onramp.android.takehome.fragments.BottomNavigationBar"
         android:id="@+id/bottomNavigationFragment"
         android:layout_width="match_parent"

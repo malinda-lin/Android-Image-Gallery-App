@@ -39,10 +39,21 @@ class ImageRepositoryImpl: ImageRepository {
         try {
             imageList = imageDao.getAllImages()
         } catch (e: Exception) {
-            throw Exception("Error in loadRandomImage from Room db: $e")
+            throw Exception("Error in loadRandomImage (Room DB): $e")
         }
 
         return imageList
+    }
+
+    override suspend fun saveFavoriteImage(context: Context, imageData: FavoriteImage) {
+        val db = getDB(context)
+        val imageDao = db.imageDao()
+
+        try {
+            imageDao.addImage(imageData)
+        } catch (e: Exception) {
+            throw Exception("Error in saveFavoriteImage (Room DB): $e")
+        }
     }
 
     private fun getAPI(): ImageRemoteDataSource {

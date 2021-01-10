@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.onramp.android.takehome.DependencyInjector
 import com.onramp.android.takehome.ImageRepository
 import com.onramp.android.takehome.imageData.Image
+import com.onramp.android.takehome.imageData.source.local.FavoriteImage
 
 class ExplorePresenter(
         view: ExploreContract.View,
@@ -23,6 +24,10 @@ class ExplorePresenter(
         } else {
             view?.setImagesOnMainThread(activityContext, imageList as ArrayList<Image>)
         }
+    }
+
+    override suspend fun saveFavoriteImage(context: Context, imageData: FavoriteImage) {
+        imageRepository.saveFavoriteImage(context, imageData)
     }
 
     override fun onDestroy() {

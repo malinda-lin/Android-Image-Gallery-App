@@ -13,10 +13,12 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.onramp.android.takehome.*
 import com.onramp.android.takehome.imageData.Image
+import com.onramp.android.takehome.imageData.source.local.FavoriteImage
 import com.onramp.android.takehome.imageData.source.remote.ImageRemoteDataSource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import org.w3c.dom.Text
 import retrofit2.Retrofit
 import retrofit2.awaitResponse
 import retrofit2.converter.gson.GsonConverterFactory
@@ -126,7 +128,7 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
                     // select the current card
                     textView.visibility = View.VISIBLE
                     imageButton.visibility = View.VISIBLE
-                    imageView.alpha = 0.5f
+                    imageView.alpha = 0.3f
                     focusedView = view
                 }
             }
@@ -134,5 +136,11 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
             throw Exception("MaterialCardView OnClick: $e")
         }
     }
-    
+
+    fun saveToFavorites(view: View) {
+        val url = focusedView?.findViewById<ImageView>(R.id.cardImageView)?.tag
+        val imageData = FavoriteImage(0, "", "",
+                url.toString(),"")
+        CoroutineScope(IO).launch { presenter.saveFavoriteImage(this@ExploreActivity, imageData) }
+    }
 }

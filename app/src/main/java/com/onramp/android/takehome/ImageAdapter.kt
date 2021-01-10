@@ -12,7 +12,7 @@ import com.onramp.android.takehome.imageData.Image
 
 class ImageAdapter : BaseAdapter{
     var context: Context? = null
-    var imageList: ArrayList<Image>
+    private var imageList: ArrayList<Image>
 
     constructor(context: Context?, imageList: ArrayList<Image>) : super() {
         this.context = context
@@ -24,7 +24,7 @@ class ImageAdapter : BaseAdapter{
     }
 
     override fun getItem(position: Int): Any {
-        return position
+        return imageList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -43,6 +43,7 @@ class ImageAdapter : BaseAdapter{
         textView.text = "Photo By ${image.user.name}"
         imageView.contentDescription = image.alt_description
 
+
         // loads imageView with URL
         val url = image.urls.small
         Glide.with(this.context!!)
@@ -51,6 +52,8 @@ class ImageAdapter : BaseAdapter{
                 .override(400, 400)
                 .placeholder(R.drawable.ic_launcher_foreground)
                 .into(imageView)
+
+        imageView.tag = url
 
         return cardLayout
     }

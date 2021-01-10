@@ -7,4 +7,5 @@ import com.onramp.android.takehome.imageData.source.local.FavoriteImage
 interface ImageRepository {
     suspend fun loadRandomImages() : List<Image>
     suspend fun loadFavoriteImages(context: Context) : List<FavoriteImage>
+    suspend fun saveFavoriteImage(context: Context ,imageData: FavoriteImage)
 }

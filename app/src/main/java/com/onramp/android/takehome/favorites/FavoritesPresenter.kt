@@ -2,12 +2,11 @@ package com.onramp.android.takehome.favorites
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import com.onramp.android.takehome.DependencyInjector
 import com.onramp.android.takehome.ImageRepository
 import com.onramp.android.takehome.imageData.*
 import com.onramp.android.takehome.imageData.source.local.FavoriteImage
-import java.lang.reflect.Array
+
 
 class FavoritesPresenter(
         view: FavoritesContract.View,
@@ -38,7 +37,21 @@ class FavoritesPresenter(
              */
         } else {
             Log.d("mylog", "imageList is not empty")
-            view?.setImagesOnMainThread(activityContext, imageList as ArrayList<Image>)
+            // convert FavoriteImage to Image
+            var newImageList = ArrayList<Image>()
+
+            for (imageItem in imageList) {
+                val imageUrl = imageItem.url
+                val image = Image(
+                        "descrp",
+                        "today",
+                        "descri",
+                        "1", Links("","","", ""),
+                        Urls("", "", imageUrl.toString()),
+                        User("", LinksX(""), "", "", ""))
+                newImageList.add(image)
+            }
+            view?.setImagesOnMainThread(activityContext, newImageList)
         }
     }
 
