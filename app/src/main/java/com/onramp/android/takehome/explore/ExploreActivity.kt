@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.card.MaterialCardView
 import com.onramp.android.takehome.*
@@ -29,8 +30,6 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
 
     private lateinit var materialCardView: MaterialCardView
 
-    private val imageRepository: ImageRepository = ImageRepositoryImpl()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_explore)
@@ -43,18 +42,10 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
         // onViewCreated is blank
         presenter.onViewCreated()
 
-        // async function to retrieve data
         val activityContext = this
+        // async function to retrieve data
         CoroutineScope(IO).launch { presenter.getRandomImageData(activityContext) }
 
-//        try {
-//            materialCardView = findViewById<View>(R.id.materialCardView) as MaterialCardView
-//        } catch (e: Exception) {
-//            Log.d("mylog", "findbyid error: $e")
-//        }
-
-
-//        materialCardView.setCardForegroundColor()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
