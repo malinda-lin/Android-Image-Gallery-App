@@ -67,7 +67,7 @@
             android:checked="false"
             android:minWidth="10dp"
             android:minHeight="10dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:elevation="10dp"
             android:onClick="saveForDownload"
             app:layout_constraintBottom_toBottomOf="parent"

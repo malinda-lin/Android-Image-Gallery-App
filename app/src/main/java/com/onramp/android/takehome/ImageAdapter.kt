@@ -57,7 +57,7 @@ class ImageAdapter : BaseAdapter{
 
         imageView.tag = url
 
-        val switchTag = listOf<String>(idx.toString(), url)
+        val switchTag = listOf<String>(idx.toString(), url, image.user.name, image.alt_description)
         switchMaterial.tag = switchTag
 
         return cardLayout

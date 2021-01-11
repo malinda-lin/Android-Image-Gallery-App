@@ -1,39 +1,39 @@
 package com.onramp.android.takehome.explore
 
 import android.content.Context
-import android.opengl.Visibility
+import android.content.Intent
+import android.graphics.Bitmap
+import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
+import com.bumptech.glide.Glide
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.onramp.android.takehome.*
 import com.onramp.android.takehome.imageData.Image
 import com.onramp.android.takehome.imageData.source.local.FavoriteImage
-import com.onramp.android.takehome.imageData.source.remote.ImageRemoteDataSource
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import org.w3c.dom.Text
-import retrofit2.Retrofit
-import retrofit2.awaitResponse
-import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.Exception
-import kotlin.collections.ArrayList
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 
 class ExploreActivity : AppCompatActivity(), ExploreContract.View {
 
     private var adapter: ImageAdapter? = null
     private lateinit var presenter: ExploreContract.Presenter
 
-    var downloadMap = mutableMapOf<String, String>()
+    var downloadMap = mutableMapOf<String, Map<String, String>>()
+    var downloadSelected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,14 +64,10 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
         // item is the menu item clicked
         return when (item.itemId) {
             R.id.action_download -> {
+                downloadSelected = true
                 val downloadButton = findViewById<MaterialButton>(R.id.downloadButton)
                 downloadButton.visibility = View.VISIBLE
-
-                // TODO: get unique instance
-//                val switchMaterial = findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
-//                switchMaterial.visibility = View.VISIBLE
-
-
+                switchVisibility(true)
                 true
             }
             R.id.action_about -> {
@@ -160,34 +156,119 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
     fun saveToFavorites(view: View) {
         val url = focusedView?.findViewById<ImageView>(R.id.cardImageView)?.tag
         val imageData = FavoriteImage(0, "", "",
-                url.toString(),"")
+                url.toString(), "")
         CoroutineScope(IO).launch { presenter.saveFavoriteImage(this@ExploreActivity, imageData) }
     }
 
     fun startDownload(view: View) {
         // view refers to download button
-
-        // TODO: get unique switchMaterial Instance, below call only refers to first one
-//        val switchMaterial = findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
-//        switchMaterial.visibility = View.GONE
+        downloadSelected = false
         view.visibility = View.GONE
-        val downloadList: MutableCollection<String> = downloadMap.values
+        switchVisibility(false)
+
         // TODO: start service here
+
+        CoroutineScope(IO).launch { generateBitmaps() } // coroutine scope
     }
+
+    suspend fun generateBitmaps() {
+        val downloadList: Collection<Map<String, String>> = downloadMap.values
+
+        for (imageObject in downloadList) {
+            // Resource used: https://stackoverflow.com/questions/44761720/save-picture-to-storage-using-glide
+            val bitmap = Glide.with(this)
+                    .asBitmap()
+                    .load(imageObject["url"])
+                    .placeholder(android.R.drawable.progress_indeterminate_horizontal) // need placeholder to avoid issue like glide annotations
+                    .error(android.R.drawable.stat_notify_error)
+                    .submit()
+                    .get()
+
+            saveImage(bitmap, imageObject["name"], imageObject["description"])
+        }
+    }
+
+    private suspend fun saveImage(bitmap: Bitmap, name: String?, description: String?) {
+        var savedImagePath: String? = null
+        // make sure to use a valid file name(only include valid chars)
+        val imageFileName: String = "JPEG_${name}_${description}.jpg"
+        val storageDirectory = File("${applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)}/galleryApp")
+
+        var success = true
+        if (!storageDirectory.exists()) {
+            success = storageDirectory.mkdir()
+        }
+        if (success) {
+            val imageFile = File(storageDirectory, imageFileName)
+            savedImagePath = imageFile.absolutePath
+
+            try {
+                val fileOut: OutputStream = FileOutputStream(imageFile)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOut)
+                fileOut.flush()
+                fileOut.close()
+
+            } catch (e: Exception) {
+                Log.d("mylog", "error in saveImage: $e")
+                throw Exception("Error saving image: $e")
+            }
+            galleryAddPicture(savedImagePath)
+        }
+    }
+
+    private suspend fun galleryAddPicture(imagePath: String?) {
+        imagePath?.let { path ->
+            val file = File(path)
+            // Resource used: https://stackoverflow.com/questions/60203353/action-media-scanner-scan-filestring-is-deprecated
+            MediaScannerConnection.scanFile(applicationContext, arrayOf(file.toString()), arrayOf(file.name), null)
+
+        }
+    }
+
+
 
     fun saveForDownload(view: View) {
         // view refers to switchMaterial
         val switchMaterial = view.findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
         val tag = switchMaterial.tag as List<*>
         val key = tag[0].toString()
-        val value = tag[1].toString()
+        val url = tag[1].toString()
+        val name = tag[2].toString()
+        val description = tag[3].toString()
 
+        val imageObject = mapOf<String, String>(
+                "url" to url,
+                "name" to name,
+                "description" to description
+        )
         if (switchMaterial.isChecked) {
-            downloadMap[key] = value
+            downloadMap[key] = imageObject
         } else {
             downloadMap.remove(key)
         }
-
     }
 
+    // iterate the gridView and switch all the switchMaterials to visible/gone
+    private fun switchVisibility(visible: Boolean) {
+        val gridView = findViewById<GridView>(R.id.imageGrid)
+        val size = gridView.count - 1
+
+        for (idx in 0..size) {
+            // TODO: find solution for unrendered instances
+            // hard coded error handling, app crashes when trying to set visibility of an instance that hasn't rendered
+            if (idx == 6) {
+                break
+            }
+            val cardViewInstance = gridView.getChildAt(idx)
+            val switchMaterial = cardViewInstance.findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
+
+            if (visible) {
+                switchMaterial.visibility = View.VISIBLE
+            } else {
+                switchMaterial.visibility = View.GONE
+            }
+
+        }
+
+    }
 }
