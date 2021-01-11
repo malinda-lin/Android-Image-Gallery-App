@@ -1,6 +1,7 @@
 package com.onramp.android.takehome.explore
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -10,7 +11,9 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.onramp.android.takehome.*
 import com.onramp.android.takehome.imageData.Image
 import com.onramp.android.takehome.imageData.source.local.FavoriteImage
@@ -30,7 +33,7 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
     private var adapter: ImageAdapter? = null
     private lateinit var presenter: ExploreContract.Presenter
 
-    private lateinit var materialCardView: MaterialCardView
+    var downloadMap = mutableMapOf<String, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,8 +63,25 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // item is the menu item clicked
         return when (item.itemId) {
-            R.id.action_settings -> true
-            R.id.action_about -> true
+            R.id.action_download -> {
+                val downloadButton = findViewById<MaterialButton>(R.id.downloadButton)
+                downloadButton.visibility = View.VISIBLE
+
+                // TODO: get unique instance
+//                val switchMaterial = findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
+//                switchMaterial.visibility = View.VISIBLE
+
+
+                true
+            }
+            R.id.action_about -> {
+                // TODO: opens about activity
+                true
+            }
+            R.id.action_settings -> {
+                // TODO: opens settings activity
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -143,4 +163,31 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
                 url.toString(),"")
         CoroutineScope(IO).launch { presenter.saveFavoriteImage(this@ExploreActivity, imageData) }
     }
+
+    fun startDownload(view: View) {
+        // view refers to download button
+
+        // TODO: get unique switchMaterial Instance, below call only refers to first one
+//        val switchMaterial = findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
+//        switchMaterial.visibility = View.GONE
+        view.visibility = View.GONE
+        val downloadList: MutableCollection<String> = downloadMap.values
+        // TODO: start service here
+    }
+
+    fun saveForDownload(view: View) {
+        // view refers to switchMaterial
+        val switchMaterial = view.findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
+        val tag = switchMaterial.tag as List<*>
+        val key = tag[0].toString()
+        val value = tag[1].toString()
+
+        if (switchMaterial.isChecked) {
+            downloadMap[key] = value
+        } else {
+            downloadMap.remove(key)
+        }
+
+    }
+
 }

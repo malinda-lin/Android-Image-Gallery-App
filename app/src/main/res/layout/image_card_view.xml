@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/materialCardView"
+    style="@style/Widget.MaterialComponents.CardView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:onClick="showPhotoDetail"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
-    app:cardPreventCornerOverlap="false"
-    style="@style/Widget.MaterialComponents.CardView">
+    app:cardPreventCornerOverlap="false">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardLinearLayout"
@@ -26,13 +25,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:contentDescription="@string/placeholder"
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_foreground"
-            android:contentDescription="@string/placeholder" />
+            app:srcCompat="@drawable/ic_launcher_foreground" />
 
         <ImageButton
             android:id="@+id/favoriteImageButton"
@@ -40,8 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:backgroundTint="@android:color/transparent"
-            android:visibility="invisible"
             android:onClick="saveToFavorites"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="@+id/cardTextView"
             app:layout_constraintStart_toStartOf="@+id/cardTextView"
             app:layout_constraintTop_toTopOf="parent"
@@ -60,6 +59,23 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/downloadSwitchMaterial"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:minWidth="10dp"
+            android:minHeight="10dp"
+            android:visibility="visible"
+            android:elevation="10dp"
+            android:onClick="saveForDownload"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

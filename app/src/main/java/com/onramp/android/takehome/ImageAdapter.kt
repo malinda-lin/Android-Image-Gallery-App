@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.onramp.android.takehome.imageData.Image
 
 class ImageAdapter : BaseAdapter{
@@ -39,6 +40,7 @@ class ImageAdapter : BaseAdapter{
 
         val imageView = cardLayout.findViewById<ImageView>(R.id.cardImageView)
         val textView = cardLayout.findViewById<TextView>(R.id.cardTextView)
+        val switchMaterial = cardLayout.findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
 
         textView.text = "Photo By ${image.user.name}"
         imageView.contentDescription = image.alt_description
@@ -54,6 +56,9 @@ class ImageAdapter : BaseAdapter{
                 .into(imageView)
 
         imageView.tag = url
+
+        val switchTag = listOf<String>(idx.toString(), url)
+        switchMaterial.tag = switchTag
 
         return cardLayout
     }
