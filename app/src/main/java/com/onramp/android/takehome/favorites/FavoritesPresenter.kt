@@ -19,24 +19,10 @@ class FavoritesPresenter(
 
     override suspend fun getFavoriteImageData(activityContext: Context) {
         val imageList = loadFavoriteImages(activityContext)
-        Log.d("mylog", "in favoritePresenter")
+
         if (imageList.isEmpty()) {
             view?.setBlank()
-            /*
-            // Test for gridView & adapter
-            val fakeList = ArrayList<Image>()
-            fakeList.add(Image(
-                            "descrp",
-                            "today",
-                            "descri",
-                            "1", Links("","","", ""),
-                            Urls("", "", ""),
-                            User("", LinksX(""), "", "", "")))
-
-            view?.setImagesOnMainThread(activityContext, fakeList as ArrayList<Image>)
-             */
         } else {
-            Log.d("mylog", "imageList is not empty")
             // convert FavoriteImage to Image
             var newImageList = ArrayList<Image>()
 

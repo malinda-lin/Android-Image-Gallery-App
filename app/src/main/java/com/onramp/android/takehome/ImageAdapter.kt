@@ -11,14 +11,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.onramp.android.takehome.imageData.Image
 
-class ImageAdapter : BaseAdapter{
-    var context: Context? = null
-    private var imageList: ArrayList<Image>
-
-    constructor(context: Context?, imageList: ArrayList<Image>) : super() {
-        this.context = context
-        this.imageList = imageList
-    }
+class ImageAdapter(var context: Context?, private var imageList: ArrayList<Image>) : BaseAdapter() {
 
     override fun getCount(): Int {
         return imageList.size

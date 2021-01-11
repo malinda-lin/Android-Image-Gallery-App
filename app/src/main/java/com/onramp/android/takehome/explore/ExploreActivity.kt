@@ -2,37 +2,30 @@ package com.onramp.android.takehome.explore
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.media.MediaScannerConnection
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.onramp.android.takehome.*
 import com.onramp.android.takehome.imageData.Image
 import com.onramp.android.takehome.imageData.source.local.FavoriteImage
+import com.onramp.android.takehome.services.ImageDownloadService
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
-import java.io.File
-import java.io.FileOutputStream
-import java.io.OutputStream
 
 class ExploreActivity : AppCompatActivity(), ExploreContract.View {
 
     private var adapter: ImageAdapter? = null
     private lateinit var presenter: ExploreContract.Presenter
 
-    var downloadMap = mutableMapOf<String, Map<String, String>>()
+    var downloadMap = hashMapOf<String, Map<String, String>>()
     var downloadSelected = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +60,7 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
                 downloadSelected = true
                 val downloadButton = findViewById<MaterialButton>(R.id.downloadButton)
                 downloadButton.visibility = View.VISIBLE
+                // TODO: switchVisibilty triggers but UI doesn't update until function called again
                 switchVisibility(true)
                 true
             }
@@ -166,65 +160,12 @@ class ExploreActivity : AppCompatActivity(), ExploreContract.View {
         view.visibility = View.GONE
         switchVisibility(false)
 
-        // TODO: start service here
-
-        CoroutineScope(IO).launch { generateBitmaps() } // coroutine scope
+        // Call to service
+        val intent = Intent(this, ImageDownloadService::class.java)
+        // Resource used: https://stackoverflow.com/questions/4992097/android-how-to-pass-hashmapstring-string-between-activities/4992465#4992465
+        intent.apply { putExtra("downloadMap", downloadMap) }
+        startService(intent)
     }
-
-    suspend fun generateBitmaps() {
-        val downloadList: Collection<Map<String, String>> = downloadMap.values
-
-        for (imageObject in downloadList) {
-            // Resource used: https://stackoverflow.com/questions/44761720/save-picture-to-storage-using-glide
-            val bitmap = Glide.with(this)
-                    .asBitmap()
-                    .load(imageObject["url"])
-                    .placeholder(android.R.drawable.progress_indeterminate_horizontal) // need placeholder to avoid issue like glide annotations
-                    .error(android.R.drawable.stat_notify_error)
-                    .submit()
-                    .get()
-
-            saveImage(bitmap, imageObject["name"], imageObject["description"])
-        }
-    }
-
-    private suspend fun saveImage(bitmap: Bitmap, name: String?, description: String?) {
-        var savedImagePath: String? = null
-        // make sure to use a valid file name(only include valid chars)
-        val imageFileName: String = "JPEG_${name}_${description}.jpg"
-        val storageDirectory = File("${applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES)}/galleryApp")
-
-        var success = true
-        if (!storageDirectory.exists()) {
-            success = storageDirectory.mkdir()
-        }
-        if (success) {
-            val imageFile = File(storageDirectory, imageFileName)
-            savedImagePath = imageFile.absolutePath
-
-            try {
-                val fileOut: OutputStream = FileOutputStream(imageFile)
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOut)
-                fileOut.flush()
-                fileOut.close()
-
-            } catch (e: Exception) {
-                Log.d("mylog", "error in saveImage: $e")
-                throw Exception("Error saving image: $e")
-            }
-            galleryAddPicture(savedImagePath)
-        }
-    }
-
-    private suspend fun galleryAddPicture(imagePath: String?) {
-        imagePath?.let { path ->
-            val file = File(path)
-            // Resource used: https://stackoverflow.com/questions/60203353/action-media-scanner-scan-filestring-is-deprecated
-            MediaScannerConnection.scanFile(applicationContext, arrayOf(file.toString()), arrayOf(file.name), null)
-
-        }
-    }
-
 
 
     fun saveForDownload(view: View) {

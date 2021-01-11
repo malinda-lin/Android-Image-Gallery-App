@@ -25,17 +25,15 @@ class BottomNavigationBar : Fragment(R.layout.fragment_bottom_nav_bar) {
     private fun setNavigationButtonListener(item: MenuItem) : Boolean {
         return when(item.itemId) {
             R.id.exploreNavigation -> {
-                Log.d("mylog", "explore!")
                 val intent = Intent(context, ExploreActivity::class.java).apply {}
                 startActivity(intent)
                 true
             }
             R.id.searchNavigation -> {
-                Log.d("mylog", "search!")
+                // TODO: add search editText
                 true
             }
             R.id.favoriteNavigation -> {
-                Log.d("mylog", "favorite!")
                 val intent = Intent(context, FavoritesActivity::class.java).apply {}
                 startActivity(intent)
                 true
