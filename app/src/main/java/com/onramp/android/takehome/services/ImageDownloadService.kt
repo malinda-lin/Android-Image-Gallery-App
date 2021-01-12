@@ -57,6 +57,7 @@ class ImageDownloadService: Service() {
         if (!storageDirectory.exists()) {
             success = storageDirectory.mkdir()
         }
+
         if (success) {
             val imageFile = File(storageDirectory, imageFileName)
             savedImagePath = imageFile.absolutePath

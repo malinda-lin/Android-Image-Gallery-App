@@ -1,6 +1,7 @@
 package com.onramp.android.takehome
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,10 @@ import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.onramp.android.takehome.imageData.Image
 
-class ImageAdapter(var context: Context?, private var imageList: ArrayList<Image>) : BaseAdapter() {
+
+class ImageAdapter(var context: Context?) : BaseAdapter() {
+    private val imageList = ArrayList<Image>()
+    private var switchVisible: Boolean = false
 
     override fun getCount(): Int {
         return imageList.size
@@ -35,9 +39,9 @@ class ImageAdapter(var context: Context?, private var imageList: ArrayList<Image
         val textView = cardLayout.findViewById<TextView>(R.id.cardTextView)
         val switchMaterial = cardLayout.findViewById<SwitchMaterial>(R.id.downloadSwitchMaterial)
 
+        // TODO: look up implementing placeholders
         textView.text = "Photo By ${image.user.name}"
         imageView.contentDescription = image.alt_description
-
 
         // loads imageView with URL
         val url = image.urls.small
@@ -53,7 +57,22 @@ class ImageAdapter(var context: Context?, private var imageList: ArrayList<Image
         val switchTag = listOf<String>(idx.toString(), url, image.user.name, image.alt_description)
         switchMaterial.tag = switchTag
 
+        // set switchMaterial visibility
+        if (switchVisible) switchMaterial.visibility = View.VISIBLE
+        else switchMaterial.visibility = View.INVISIBLE
+
         return cardLayout
+    }
+
+    fun setData(images: ArrayList<Image>) {
+        this.imageList.clear()
+        this.imageList.addAll(images)
+        notifyDataSetChanged()
+    }
+
+    fun setSwitchVisibility(visible: Boolean) {
+        switchVisible = visible
+        notifyDataSetChanged()
     }
 
 }

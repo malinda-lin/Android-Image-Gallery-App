@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
 }
 
+// Makes keystore.properties file accessible to project files
 def keystorePropertiesFile = rootProject.file("keystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
@@ -23,7 +24,6 @@ android {
         buildConfigField("String", "UNSPLASH_API_KEY", keystoreProperties['UNSPLASH_API_KEY'])
     }
 
-    // require for Retrofit
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -67,14 +67,9 @@ dependencies {
     def room_version = "2.2.6"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    // optional - Kotlin Extensions and Coroutines support for Room
+    
+    // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:$room_version"
-
-    // Lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
-
 }
 repositories {
     maven {

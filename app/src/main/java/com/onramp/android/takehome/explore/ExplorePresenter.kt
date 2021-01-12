@@ -19,11 +19,9 @@ class ExplorePresenter(
     override suspend fun getRandomImageData(activityContext: Context) {
         val imageList = loadRandomImages()
 
-        if (imageList.isEmpty()) {
-            view?.setBlank()
-        } else {
-            view?.setImagesOnMainThread(activityContext, imageList as ArrayList<Image>)
-        }
+        if (imageList.isEmpty()) view?.setBlank()
+        else view?.setImagesOnMainThread(activityContext, imageList as ArrayList<Image>)
+
     }
 
     override suspend fun saveFavoriteImage(context: Context, imageData: FavoriteImage) {

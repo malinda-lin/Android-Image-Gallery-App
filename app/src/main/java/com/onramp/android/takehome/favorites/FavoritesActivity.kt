@@ -21,18 +21,14 @@ class FavoritesActivity : AppCompatActivity(), FavoritesContract.View {
     private var adapter: ImageAdapter? = null
     private lateinit var presenter: FavoritesContract.Presenter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorites)
 
         setPresenter(FavoritesPresenter(this, DependencyInjectorImpl()))
-        // onViewCreated is blank
-        presenter.onViewCreated()
 
-        val activityContext = this
         // async function to retrieve data
-        CoroutineScope(Dispatchers.IO).launch { presenter.getFavoriteImageData(activityContext) }
+        CoroutineScope(Dispatchers.IO).launch { presenter.getFavoriteImageData(this@FavoritesActivity) }
     }
 
     override fun onDestroy() {
@@ -58,7 +54,9 @@ class FavoritesActivity : AppCompatActivity(), FavoritesContract.View {
 
     // bind adapter to gridView
     private fun setImagesToGridView(activityContext: Context, imageList: ArrayList<Image>) {
-        adapter = ImageAdapter(activityContext, imageList)
+//        adapter = ImageAdapter(activityContext, imageList)
+        adapter = ImageAdapter(activityContext)
+        // adapter.setData(
         val gridView = findViewById<GridView>(R.id.imageGrid)
         gridView.adapter = adapter
     }
