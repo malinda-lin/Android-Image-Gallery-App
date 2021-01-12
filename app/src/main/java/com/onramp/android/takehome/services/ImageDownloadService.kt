@@ -7,10 +7,12 @@ import android.media.MediaScannerConnection
 import android.os.Environment
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -44,6 +46,9 @@ class ImageDownloadService: Service() {
                     .get()
 
             saveImage(bitmap, imageObject["name"] as String?, imageObject["description"] as String?)
+        }
+        withContext(Dispatchers.Main){
+            Toast.makeText(applicationContext, "Downloads Finished!", Toast.LENGTH_LONG).show()
         }
     }
 

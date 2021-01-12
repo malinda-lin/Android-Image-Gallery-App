@@ -1,10 +1,17 @@
 package com.onramp.android.takehome.favorites
 
 import android.content.Context
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.GridView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.snackbar.Snackbar
 import com.onramp.android.takehome.DependencyInjectorImpl
 import com.onramp.android.takehome.ImageAdapter
 import com.onramp.android.takehome.R
@@ -40,9 +47,19 @@ class FavoritesActivity : AppCompatActivity(), FavoritesContract.View {
         this.presenter = presenter
     }
 
+
     override suspend fun setBlank() {
         withContext(Dispatchers.Main) {
-            Toast.makeText(applicationContext, "No Images Found, Try Adding Some!", Toast.LENGTH_LONG).show()
+            val gridView = findViewById<GridView>(R.id.imageGrid)
+            val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+            val message = "No Images Found, Try Adding Some!"
+            val snackBar = Snackbar.make(gridView, message, Snackbar.LENGTH_LONG)
+            val snackView = snackBar.view
+            snackView.textAlignment = View.TEXT_ALIGNMENT_CENTER
+            snackBar.setAnchorView(bottomNavigationView)
+                    .setBackgroundTint(ContextCompat.getColor(applicationContext, R.color.colorPrimary))
+                    .setTextColor(Color.WHITE)
+                    .show()
         }
     }
 
@@ -54,9 +71,9 @@ class FavoritesActivity : AppCompatActivity(), FavoritesContract.View {
 
     // bind adapter to gridView
     private fun setImagesToGridView(activityContext: Context, imageList: ArrayList<Image>) {
-//        adapter = ImageAdapter(activityContext, imageList)
+
         adapter = ImageAdapter(activityContext)
-        // adapter.setData(
+        adapter?.setData(imageList)
         val gridView = findViewById<GridView>(R.id.imageGrid)
         gridView.adapter = adapter
     }
