@@ -2,21 +2,16 @@ package com.onramp.android.takehome.favorites
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.GridView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.onramp.android.takehome.DependencyInjectorImpl
-import com.onramp.android.takehome.ImageAdapter
+import com.onramp.android.takehome.adapters.ImageAdapter
 import com.onramp.android.takehome.R
-import com.onramp.android.takehome.explore.ExploreContract
-import com.onramp.android.takehome.explore.ExplorePresenter
 import com.onramp.android.takehome.imageData.Image
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

@@ -1,9 +1,8 @@
 package com.onramp.android.takehome.favorites
 
 import android.content.Context
-import android.util.Log
 import com.onramp.android.takehome.DependencyInjector
-import com.onramp.android.takehome.ImageRepository
+import com.onramp.android.takehome.repository.ImageRepository
 import com.onramp.android.takehome.imageData.*
 import com.onramp.android.takehome.imageData.source.local.FavoriteImage
 

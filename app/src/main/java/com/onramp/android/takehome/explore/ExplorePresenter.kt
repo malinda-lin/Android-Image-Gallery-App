@@ -1,9 +1,8 @@
 package com.onramp.android.takehome.explore
 
 import android.content.Context
-import android.widget.Toast
 import com.onramp.android.takehome.DependencyInjector
-import com.onramp.android.takehome.ImageRepository
+import com.onramp.android.takehome.repository.ImageRepository
 import com.onramp.android.takehome.imageData.Image
 import com.onramp.android.takehome.imageData.source.local.FavoriteImage
 
