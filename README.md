@@ -5,7 +5,10 @@ This photo gallery application lets users browse randomly selected images from U
 Users can save their favorite images to the application by tapping the image and tapping the heart button. Favorite images are viewable in the favorites screen.  
 <br/>
 Users can also download images to their internal storage by selecting 'download' from the overflow menu in the 'top app bar', switching on for the images they're interested in, and tapping 'Start Download'.    
-Downloaded images can be found in: Internal storage>Android>data>com.onramp.android.takehome>files>Pictures>galleryApp.
+<br/>
+Downloaded images can be found in:   
+Internal storage>Android>data>com.onramp.android.takehome>files>Pictures>galleryApp.   
+<br/>
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery.png" width="150">   
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery_save_favorites.gif" width="150">
 
@@ -20,6 +23,7 @@ Downloaded images can be found in: Internal storage>Android>data>com.onramp.andr
 
 ## Architectural Overview
 This application has two core features and those features are separated into two activities (Explore & Favorites). These activities share core UI components such as the top appbar, GridView, and bottom navigation bar. Both activities follow the model view presenter (MVP) architecture pattern to decouple the UI and the back end implementation. Both activities deal with sending and receiving image data so they share a repository for the implementation of those functions. The data sources are divided into local and remote. The local data source utilizes Android Room to store data and retrieve data while the remote data source utilizes the Unsplash API only to retrieve data. For the file structure, files are divided by feature and purpose. For example, all files related to the explore activity are grouped, these include the explore activity, explore presenter, and explore contract. Files that are reused and shared such as fragments are grouped under the category of fragments, these include the UI components like the bottom navigation.   
+<br/>
 See [Application Creation and Learning Process](#Application-Creation-Proces) to learn about how I would optimize this structure.
 
 ## Project Requirements
@@ -36,6 +40,7 @@ This application has "Explore" and "Favorites" activities. The 'top app bar' and
 
 ### Service Component
 This application's image downloading feature is a background service. I chose this feature as such because file downloads should continue even when users leave the application.   
+<br/>
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery_download_feature.gif" width="150">
 
 ### MVP Architecture Pattern
@@ -43,7 +48,7 @@ This application follows the MVP architectural pattern. This pattern allows for 
 
 Below is an example specific to the explore activity:   
 
-<img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/explore_getImages_data_flow.png" width="500">
+<img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/explore_getImages_data_flow.png" width="600">
 
 ### REST API
 This application uses the Retrofit API interface to make GET requests from the Unsplash API. I chose the random images API route so that users could see different images every time they open the 'Explore Activity'. This API required registering for an API key. I stored this API key using BuildConfig to avoid exposing them.
@@ -51,12 +56,12 @@ This application uses the Retrofit API interface to make GET requests from the U
 ### UI Components from Android Material Design Component Library
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery_UI_components.png" width="450">
 UI Components Used:   
-* App Bar: Top
-* Switches
-* Cards
-* Button
-* Bottom Navigation
-* Snackbar
+* App Bar: Top   
+* Switches   
+* Cards   
+* Button   
+* Bottom Navigation   
+* Snackbar   
 
 ### Data Persistence (Android Room)
 This application uses Android Room to store image data of images favored by users. This local database is set up through 3 key components. (Image Class, Image Data Access Object, Database)   
