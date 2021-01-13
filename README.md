@@ -1,7 +1,6 @@
 # Photo Gallery
 
 This photo gallery application lets users browse randomly selected images from Unsplash.com and save or download them.   
-<br/>
 
 ## Table of Contents
  - [Application Overview](#Application-Overview)
