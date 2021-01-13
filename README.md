@@ -33,7 +33,7 @@ The data sources are divided into local and remote. The local data source utiliz
 <br/>
 For the file structure, files are divided by feature and purpose. For example, all files related to the explore activity are grouped, these include the explore activity, explore presenter, and explore contract. Files that are reused and shared such as fragments are grouped under the category of fragments, these include UI components like the bottom navigation and top app bar.   
 <br/>
-See [Application Creation and Learning Process](#Application-Creation-and-Learning-Process) to learn about how I would optimize this structure.
+See [Application Creation and Learning Process](#Application-Creation-&-Learning-Process) to learn about how I would optimize this structure.
 
 ## Project Requirements
 This section goes over how I addressed the requirements below:
