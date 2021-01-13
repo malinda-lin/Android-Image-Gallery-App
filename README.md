@@ -7,9 +7,9 @@ This photo gallery application lets users browse randomly selected images from U
  - [Architectural Overview](#Architectural-Overview)
  - [Project Requirements Met](#Project-Requirements)
  - [Installation](#Installation)
- - [Application Creation & Learning Process](#Application-Creation-&-Learning-Process)
+ - [Application Creation & Learning Process](#Application-Creation-and-Learning-Process)
  - [Technologies Used](#Technologies-Used)
- - [Resources Used & Credits](#Resources-Used-&-Credits)
+ - [Resources Used & Credits](#Resources-Used-and-Credits)
  
 ## Application Overview
 Users may save their favorite images to the application by tapping the image and tapping the heart button. Favorite images are viewable in the favorites screen.  
@@ -33,7 +33,7 @@ The data sources are divided into local and remote. The local data source utiliz
 <br/>
 For the file structure, files are divided by feature and purpose. For example, all files related to the explore activity are grouped, these include the explore activity, explore presenter, and explore contract. Files that are reused and shared such as fragments are grouped under the category of fragments, these include UI components like the bottom navigation and top app bar.   
 <br/>
-See [Application Creation and Learning Process](#Application-Creation-&-Learning-Process) to learn about how I would optimize this structure.
+See [Application Creation and Learning Process](#Application-Creation-and-Learning-Process) to learn about how I would optimize this structure.
 
 ## Project Requirements
 This section goes over how I addressed the requirements below:
@@ -84,7 +84,7 @@ Using this repo:
   Press "Run app" (Android Studio)
 ````
 
-## Application Creation & Learning Process
+## Application Creation and Learning Process
 To start this project, I outlined the requirements to use for the basis of a rough UI design. Next, I researched project requirements that were unfamiliar to me, mainly the MVP architecture pattern. Then, I outlined the file structure and potential files that I would need in order to follow this architecture pattern. Finally, I started developing my application by referring to my UI design.   
 
 Since this was my first native Android application, I heavily relied on documentation, video tutorials, Stack Overflow, and Logcat. I celebrated every small victory and successfully implemented features but as I was developing, I was also thinking about how I could optimize. In future development, I would create my Explore Activity and Favorites activity as fragments hosted on a main activity because they share many UI components. This would eliminate the need for the top app bar and bottom navigation as fragments. Instead, I would include them as regular view components in the main activity layout.</b> Looking back on my code, I can see that there is much refactoring to do and additional best practices to be applied.   
