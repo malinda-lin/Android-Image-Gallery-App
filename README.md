@@ -14,7 +14,7 @@ Try the app here: [APK Link](https://drive.google.com/file/d/1QT1t70SewTyM7S6y4D
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery.png" width="200">
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery_save_favorites.gif" width="200">
 
-## Table of Context
+## Table of Contents
  - [Application Overview](#Photo-Gallery)
  - [Architectural Overview](#Architectural-Overview)
  - [Project Requirements Met](#Project-Requirements)
