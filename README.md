@@ -99,7 +99,7 @@ Nonetheless, this project was an intense and rewarding learning experience. I us
 - Android Room (Data Persistence, Local Database)
 - Unsplash API (Third Party API)
 
-## Resources Used & Credits
+## Resources Used and Credits
 
 [Android Dev Docs on App Architecture](https://developer.android.com/jetpack/guide)   
 [MVP Architecture Kotlin Code Example](https://github.com/android/architecture-samples/tree/todo-mvp-kotlin)   
