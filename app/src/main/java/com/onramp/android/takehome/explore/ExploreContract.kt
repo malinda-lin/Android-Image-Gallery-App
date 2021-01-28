@@ -8,12 +8,15 @@ import com.onramp.android.takehome.imageData.source.local.FavoriteImage
 
 interface ExploreContract {
 
+    // functions that make API calls
     interface Presenter : BasePresenter {
+
         fun onViewCreated()
         suspend fun getRandomImageData(activityContext: Context)
         suspend fun saveFavoriteImage(context: Context, imageData: FavoriteImage)
     }
 
+    // functions that change the view/UI
     interface View : BaseView<Presenter> {
         suspend fun setImagesOnMainThread(activityContext: Context, imageList: ArrayList<Image>)
         suspend fun setBlank()
