@@ -21,7 +21,7 @@ Internal storage>Android>data>com.onramp.android.takehome>files>Pictures>gallery
 <br/>
 The search option is a work in progress, it currently does not function.
 <br/>
-Try the app here: [APK Link](https://drive.google.com/file/d/1QT1t70SewTyM7S6y4Dm_nd8kfyy0NmJn/view?usp=sharing)
+Try the app here: [APK Link](https://drive.google.com/file/d/1vGZciqb5i_0QqLpZ_kQ2m1kQEaLYNCqY/view?usp=sharing)
 <br/>
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery.png" width="200">
 <img src="https://github.com/malinda-lin/Android-Image-Gallery-App/blob/main/public/photo_gallery_save_favorites.gif" width="200">
@@ -71,7 +71,7 @@ This application uses Android Room to store image data of images favored by user
 The image data class defines the image properties and their types so the database knows what it's storing. The image data access object or DAO is where the query types are defined and implemented. The image database class builds and create an instance of the room database. The database instance is used by the image repository to implement data transfers between the model and view. In this application, every time a user favors an image, the presenter triggers the repository and an instance of the image class is created and stored to the database using a database instance.
 
 ## Installation  
-Using your phone or emulator: [APK Link](https://drive.google.com/file/d/1QT1t70SewTyM7S6y4Dm_nd8kfyy0NmJn/view?usp=sharing)  
+Using your phone or emulator: [APK Link](https://drive.google.com/file/d/1vGZciqb5i_0QqLpZ_kQ2m1kQEaLYNCqY/view?usp=sharing)  
 ````
   Phone -> Install .apk file on your phone and enable "download from unknown sources"
 
